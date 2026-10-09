@@ -1,0 +1,39 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.13.0/schema.json",
+  "name": "p4_cluster_slicer",
+  "position": {
+    "x": 640,
+    "y": 455,
+    "z": 700,
+    "height": 245,
+    "width": 620,
+    "tabOrder": 700
+  },
+  "visual": {
+    "visualType": "slicer",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "WeatherHistory"
+                    }
+                  },
+                  "Property": "Cluster"
+                }
+              },
+              "queryRef": "WeatherHistory.Cluster",
+              "nativeQueryRef": "Cluster",
+              "active": true
+            }
+          ]
+        }
+      }
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

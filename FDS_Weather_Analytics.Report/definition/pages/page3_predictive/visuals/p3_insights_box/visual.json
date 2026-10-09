@@ -1,0 +1,49 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.13.0/schema.json",
+  "name": "p3_insights_box",
+  "position": {
+    "x": 20,
+    "y": 455,
+    "z": 700,
+    "height": 245,
+    "width": 1240,
+    "tabOrder": 700
+  },
+  "visual": {
+    "visualType": "textbox",
+    "objects": {
+      "general": [
+        {
+          "properties": {
+            "paragraphs": [
+              {
+                "textRuns": [
+                  {
+                    "value": "PREDICTIVE MODEL ARCHITECTURE & VALIDATION METRICS",
+                    "textStyle": {
+                      "fontSize": "16pt",
+                      "fontWeight": "bold",
+                      "color": "#0F172A"
+                    }
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "\u2022 OLS Regression: Predicts Apparent Temperature using 6 atmospheric covariates. Ambient temperature dominates beta weights with R2 = 0.990 and RMSE = 1.080 \u00b0C.\n\u2022 Logistic Precipitation Classifier: Stratified 80/20 split predicting thermodynamic phase boundary (Rain vs Snow) achieves 99.58% Accuracy, 99.72% Precision, 99.80% Recall, and 99.76% F1-score.",
+                    "textStyle": {
+                      "fontSize": "11pt",
+                      "color": "#475569"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

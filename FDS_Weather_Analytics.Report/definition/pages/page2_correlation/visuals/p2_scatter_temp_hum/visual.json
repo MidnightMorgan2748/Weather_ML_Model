@@ -1,0 +1,58 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.13.0/schema.json",
+  "name": "p2_scatter_temp_hum",
+  "position": {
+    "x": 640,
+    "y": 185,
+    "z": 500,
+    "height": 250,
+    "width": 620,
+    "tabOrder": 500
+  },
+  "visual": {
+    "visualType": "scatterChart",
+    "query": {
+      "queryState": {
+        "X": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "WeatherHistory"
+                    }
+                  },
+                  "Property": "Temperature (C)"
+                }
+              },
+              "queryRef": "WeatherHistory.Temperature (C)",
+              "nativeQueryRef": "Temperature (C)",
+              "active": true
+            }
+          ]
+        },
+        "Y": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "WeatherHistory"
+                    }
+                  },
+                  "Property": "Humidity"
+                }
+              },
+              "queryRef": "WeatherHistory.Humidity",
+              "nativeQueryRef": "Humidity",
+              "active": true
+            }
+          ]
+        }
+      }
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

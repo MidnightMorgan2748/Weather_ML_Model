@@ -1,0 +1,81 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.13.0/schema.json",
+  "name": "p4_cluster_summary",
+  "position": {
+    "x": 640,
+    "y": 175,
+    "z": 500,
+    "height": 265,
+    "width": 620,
+    "tabOrder": 500
+  },
+  "visual": {
+    "visualType": "tableEx",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "WeatherHistory"
+                    }
+                  },
+                  "Property": "Cluster"
+                }
+              },
+              "queryRef": "WeatherHistory.Cluster",
+              "nativeQueryRef": "Cluster",
+              "active": true
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "WeatherHistory"
+                    }
+                  },
+                  "Property": "Total Observations"
+                }
+              },
+              "queryRef": "WeatherHistory.Total Observations",
+              "nativeQueryRef": "Total Observations"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "WeatherHistory"
+                    }
+                  },
+                  "Property": "Average Temperature"
+                }
+              },
+              "queryRef": "WeatherHistory.Average Temperature",
+              "nativeQueryRef": "Average Temperature"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "WeatherHistory"
+                    }
+                  },
+                  "Property": "Average Humidity"
+                }
+              },
+              "queryRef": "WeatherHistory.Average Humidity",
+              "nativeQueryRef": "Average Humidity"
+            }
+          ]
+        }
+      }
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

@@ -1,0 +1,171 @@
+table WeatherHistory
+
+	partition 'WeatherHistory-Partition' = m
+		mode: import
+		source =
+			let
+				Source = Csv.Document(File.Contents("c:/Users/dragh/College projects/FDSProject/weatherHistory.csv"), [Delimiter=",", Columns=12, Encoding=65001, QuoteStyle=QuoteStyle.None]),
+				#"Promoted Headers" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+				#"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{
+					{"Formatted Date", type text},
+					{"Summary", type text},
+					{"Precip Type", type text},
+					{"Temperature (C)", type number},
+					{"Apparent Temperature (C)", type number},
+					{"Humidity", type number},
+					{"Wind Speed (km/h)", type number},
+					{"Wind Bearing (degrees)", type number},
+					{"Visibility (km)", type number},
+					{"Loud Cover", type number},
+					{"Pressure (millibars)", type number},
+					{"Daily Summary", type text}
+				}),
+				#"Replaced Zero Pressure" = Table.ReplaceValue(#"Changed Type", 0, 1016.45, Replacer.ReplaceValue, {"Pressure (millibars)"}),
+				#"Replaced Precip Nulls" = Table.ReplaceValue(#"Replaced Zero Pressure", null, "none", Replacer.ReplaceValue, {"Precip Type"}),
+				#"Removed Loud Cover" = Table.RemoveColumns(#"Replaced Precip Nulls", {"Loud Cover"})
+			in
+				#"Removed Loud Cover"
+
+	measure 'Total Observations' = COUNTROWS(WeatherHistory)
+		formatString: #,##0
+
+	measure 'Average Temperature' = AVERAGE(WeatherHistory[Temperature (C)])
+		formatString: 0.00 "°C"
+
+	measure 'Average Apparent Temperature' = AVERAGE(WeatherHistory[Apparent Temperature (C)])
+		formatString: 0.00 "°C"
+
+	measure 'Average Humidity' = AVERAGE(WeatherHistory[Humidity])
+		formatString: 0.00%
+
+	measure 'Average Wind Speed' = AVERAGE(WeatherHistory[Wind Speed (km/h)])
+		formatString: 0.00 "km/h"
+
+	measure 'Average Pressure' = AVERAGE(WeatherHistory[Pressure (millibars)])
+		formatString: #,##0.00 "mbar"
+
+	measure 'Temp Diff Avg' = AVERAGE(WeatherHistory[Temp Diff])
+		formatString: 0.00 "°C"
+
+	measure 'Rain Count' = CALCULATE(COUNTROWS(WeatherHistory), WeatherHistory[Precip Type] = "rain")
+		formatString: #,##0
+
+	measure 'Snow Count' = CALCULATE(COUNTROWS(WeatherHistory), WeatherHistory[Precip Type] = "snow")
+		formatString: #,##0
+
+	measure 'Rain Share %' = DIVIDE([Rain Count], [Total Observations])
+		formatString: 0.0%
+
+	measure 'Regression R2' = 0.98997
+		formatString: 0.0000
+
+	measure 'Regression RMSE' = 1.08017
+		formatString: 0.000 "°C"
+
+	measure 'Regression MAE' = 0.84684
+		formatString: 0.000 "°C"
+
+	measure 'Classification Accuracy' = 0.99577
+		formatString: 0.00%
+
+	measure 'Classification Precision' = 0.99722
+		formatString: 0.00%
+
+	measure 'Classification Recall' = 0.99796
+		formatString: 0.00%
+
+	measure 'Classification F1' = 0.99759
+		formatString: 0.00%
+
+	measure 'Silhouette Score' = 0.2842
+		formatString: 0.0000
+
+	measure 'PCA Top-3 Cumulative Variance' = 0.9418
+		formatString: 0.00%
+
+	column 'Formatted Date'
+		dataType: string
+		sourceColumn: Formatted Date
+		summarizeBy: none
+
+	column Summary
+		dataType: string
+		sourceColumn: Summary
+		summarizeBy: none
+
+	column 'Precip Type'
+		dataType: string
+		sourceColumn: Precip Type
+		summarizeBy: none
+
+	column 'Temperature (C)'
+		dataType: double
+		sourceColumn: Temperature (C)
+		summarizeBy: sum
+
+	column 'Apparent Temperature (C)'
+		dataType: double
+		sourceColumn: Apparent Temperature (C)
+		summarizeBy: sum
+
+	column Humidity
+		dataType: double
+		sourceColumn: Humidity
+		summarizeBy: sum
+
+	column 'Wind Speed (km/h)'
+		dataType: double
+		sourceColumn: Wind Speed (km/h)
+		summarizeBy: sum
+
+	column 'Wind Bearing (degrees)'
+		dataType: double
+		sourceColumn: Wind Bearing (degrees)
+		summarizeBy: sum
+
+	column 'Visibility (km)'
+		dataType: double
+		sourceColumn: Visibility (km)
+		summarizeBy: sum
+
+	column 'Pressure (millibars)'
+		dataType: double
+		sourceColumn: Pressure (millibars)
+		summarizeBy: sum
+
+	column 'Daily Summary'
+		dataType: string
+		sourceColumn: Daily Summary
+		summarizeBy: none
+
+	column 'Temp Diff' = WeatherHistory[Temperature (C)] - WeatherHistory[Apparent Temperature (C)]
+		dataType: double
+		summarizeBy: sum
+
+	column Year = VALUE(LEFT(WeatherHistory[Formatted Date], 4))
+		dataType: int64
+		summarizeBy: none
+
+	column Month = VALUE(MID(WeatherHistory[Formatted Date], 6, 2))
+		dataType: int64
+		summarizeBy: none
+
+	column Hour = VALUE(MID(WeatherHistory[Formatted Date], 12, 2))
+		dataType: int64
+		summarizeBy: none
+
+	column Season = IF(WeatherHistory[Month] IN {12, 1, 2}, "Winter", IF(WeatherHistory[Month] IN {3, 4, 5}, "Spring", IF(WeatherHistory[Month] IN {6, 7, 8}, "Summer", "Autumn")))
+		dataType: string
+		summarizeBy: none
+
+	column 'Is Daytime' = IF(WeatherHistory[Hour] >= 6 && WeatherHistory[Hour] <= 18, "Daytime", "Nighttime")
+		dataType: string
+		summarizeBy: none
+
+	column 'Is Rain' = IF(WeatherHistory[Precip Type] = "rain", 1, IF(WeatherHistory[Precip Type] = "snow", 0, BLANK()))
+		dataType: int64
+		summarizeBy: sum
+
+	column Cluster = IF(WeatherHistory[Temperature (C)] > 18 && WeatherHistory[Humidity] < 0.65, "Cluster 0 (Warm & Dry Summer)", IF(WeatherHistory[Temperature (C)] < 5 && WeatherHistory[Humidity] > 0.85, "Cluster 1 (Cold & Saturated Winter)", IF(WeatherHistory[Wind Speed (km/h)] > 20, "Cluster 3 (High-Wind Storms)", "Cluster 2 (Moderate Overcast)")))
+		dataType: string
+		summarizeBy: none

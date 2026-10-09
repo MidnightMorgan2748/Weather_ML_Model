@@ -1,0 +1,38 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.13.0/schema.json",
+  "name": "p3_kpi_rmse",
+  "position": {
+    "x": 330,
+    "y": 75,
+    "z": 200,
+    "height": 85,
+    "width": 290,
+    "tabOrder": 200
+  },
+  "visual": {
+    "visualType": "tableEx",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "WeatherHistory"
+                    }
+                  },
+                  "Property": "Regression RMSE"
+                }
+              },
+              "queryRef": "WeatherHistory.Regression RMSE",
+              "nativeQueryRef": "Regression RMSE"
+            }
+          ]
+        }
+      }
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

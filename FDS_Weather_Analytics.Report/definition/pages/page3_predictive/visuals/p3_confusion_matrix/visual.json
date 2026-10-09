@@ -1,0 +1,57 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.13.0/schema.json",
+  "name": "p3_confusion_matrix",
+  "position": {
+    "x": 640,
+    "y": 175,
+    "z": 600,
+    "height": 265,
+    "width": 620,
+    "tabOrder": 600
+  },
+  "visual": {
+    "visualType": "columnChart",
+    "query": {
+      "queryState": {
+        "Category": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "WeatherHistory"
+                    }
+                  },
+                  "Property": "Precip Type"
+                }
+              },
+              "queryRef": "WeatherHistory.Precip Type",
+              "nativeQueryRef": "Precip Type",
+              "active": true
+            }
+          ]
+        },
+        "Y": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "WeatherHistory"
+                    }
+                  },
+                  "Property": "Total Observations"
+                }
+              },
+              "queryRef": "WeatherHistory.Total Observations",
+              "nativeQueryRef": "Total Observations"
+            }
+          ]
+        }
+      }
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

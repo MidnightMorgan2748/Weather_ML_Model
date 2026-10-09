@@ -1,0 +1,38 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.13.0/schema.json",
+  "name": "p1_kpi_app_temp",
+  "position": {
+    "x": 520,
+    "y": 75,
+    "z": 300,
+    "height": 85,
+    "width": 230,
+    "tabOrder": 300
+  },
+  "visual": {
+    "visualType": "tableEx",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "WeatherHistory"
+                    }
+                  },
+                  "Property": "Average Apparent Temperature"
+                }
+              },
+              "queryRef": "WeatherHistory.Average Apparent Temperature",
+              "nativeQueryRef": "Average Apparent Temperature"
+            }
+          ]
+        }
+      }
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

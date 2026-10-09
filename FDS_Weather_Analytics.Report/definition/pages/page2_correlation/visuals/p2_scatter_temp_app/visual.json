@@ -1,0 +1,58 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.13.0/schema.json",
+  "name": "p2_scatter_temp_app",
+  "position": {
+    "x": 20,
+    "y": 185,
+    "z": 400,
+    "height": 250,
+    "width": 600,
+    "tabOrder": 400
+  },
+  "visual": {
+    "visualType": "scatterChart",
+    "query": {
+      "queryState": {
+        "X": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "WeatherHistory"
+                    }
+                  },
+                  "Property": "Temperature (C)"
+                }
+              },
+              "queryRef": "WeatherHistory.Temperature (C)",
+              "nativeQueryRef": "Temperature (C)",
+              "active": true
+            }
+          ]
+        },
+        "Y": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "WeatherHistory"
+                    }
+                  },
+                  "Property": "Apparent Temperature (C)"
+                }
+              },
+              "queryRef": "WeatherHistory.Apparent Temperature (C)",
+              "nativeQueryRef": "Apparent Temperature (C)",
+              "active": true
+            }
+          ]
+        }
+      }
+    },
+    "drillFilterOtherVisuals": true
+  }
+}
